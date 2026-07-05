@@ -272,7 +272,9 @@ img { max-width: 100%; display: block; }
 .hero__photo-frame img {
   width: 100%; height: 100%;
   object-fit: cover;
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
 }
+.hero__photo-frame:hover img { transform: scale(1.09); }
 .hero__photo-card {
   position: absolute;
   bottom: -18px;
@@ -490,6 +492,40 @@ img { max-width: 100%; display: block; }
 }
 .accordion__body p + p { margin-top: 10px; }
 .accordion__body strong { color: var(--c-ink); }
+.accordion__sub {
+  font-weight: 700;
+  color: var(--c-ink) !important;
+  margin-top: 14px !important;
+  margin-bottom: 6px;
+}
+.accordion__list {
+  list-style: none;
+  display: grid;
+  gap: 7px;
+  margin: 2px 0 4px;
+}
+.accordion__list li {
+  position: relative;
+  padding-left: 24px;
+}
+.accordion__list li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: .55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-accent);
+}
+.accordion__warn {
+  margin-top: 12px !important;
+  padding: 12px 14px;
+  background: #fff4f4;
+  border-left: 3px solid #e05656;
+  border-radius: 8px;
+  color: var(--c-ink) !important;
+}
 
 /* ---------- Відгуки ---------- */
 .reviews__grid {
