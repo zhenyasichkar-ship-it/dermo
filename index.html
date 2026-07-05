@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Євген Січкар — лікар-дерматолог у Києві | Запис на консультацію</title>
+  <meta name="description" content="Євген Січкар — лікар-дерматолог у Києві. 7 років практики, випускник НМУ ім. О.О. Богомольця. Лікування акне, псоріазу, дерматитів, дерматоскопія. Запис на консультацію онлайн.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
+</head>
+<body>
+
+  <!-- ===== Шапка ===== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#hero" class="logo">
+        <span class="logo__icon">🩺</span>
+        <span class="logo__text">Євген Січкар<small>лікар-дерматолог</small></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#about" class="nav__link">Про мене</a>
+        <a href="#services" class="nav__link">Послуги</a>
+        <a href="#diseases" class="nav__link">Захворювання</a>
+        <a href="#reviews" class="nav__link">Відгуки</a>
+        <a href="#contacts" class="nav__link">Контакти</a>
+        <a href="#booking" class="btn btn--primary nav__cta">Записатися</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Герой ===== -->
+  <section class="hero" id="hero">
+    <div class="container hero__inner">
+      <div class="hero__content reveal">
+        <p class="hero__eyebrow">Дерматолог • Київ</p>
+        <h1 class="hero__title">Євген <span class="accent">Січкар</span></h1>
+        <p class="hero__subtitle">
+          Здорова шкіра — це не розкіш, а результат правильного лікування.
+          Допомагаю розібратися з проблемами шкіри, волосся та нігтів —
+          без зайвих призначень, на основі доказової медицини.
+        </p>
+        <div class="hero__badges">
+          <div class="badge">
+            <span class="badge__num">7</span>
+            <span class="badge__label">років практики</span>
+          </div>
+          <div class="badge">
+            <span class="badge__num">НМУ</span>
+            <span class="badge__label">ім. О.О. Богомольця</span>
+          </div>
+          <div class="badge">
+            <span class="badge__num">1000+</span>
+            <span class="badge__label">задоволених пацієнтів</span>
+          </div>
+        </div>
+        <div class="hero__actions">
+          <a href="#booking" class="btn btn--primary btn--lg">Записатися на консультацію</a>
+          <a href="tel:+380676661488" class="btn btn--ghost btn--lg">📞 067 666 14 88</a>
+        </div>
+      </div>
+      <div class="hero__photo reveal">
+        <div class="hero__photo-frame">
+          <img src="assets/doctor.jpg" alt="Євген Січкар — лікар-дерматолог"
+               onerror="this.onerror=null;this.src='assets/doctor-placeholder.svg'">
+        </div>
+        <div class="hero__photo-card">
+          <span>🎓</span>
+          <p>Вища медична освіта<br><strong>НМУ ім. О.О. Богомольця</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Про мене ===== -->
+  <section class="section about" id="about">
+    <div class="container">
+      <p class="section__eyebrow reveal">Знайомство</p>
+      <h2 class="section__title reveal">Про мене</h2>
+      <div class="about__grid">
+        <div class="about__text reveal">
+          <p>
+            Мене звати Євген Січкар. Я — лікар-дерматолог із <strong>7 роками практики</strong>,
+            випускник <strong>Національного медичного університету імені О.О. Богомольця</strong> —
+            провідного медичного вишу України.
+          </p>
+          <p>
+            Я переконаний, що хороший лікар — це той, хто не лише лікує, а й пояснює.
+            На консультації ви завжди отримаєте зрозумілу відповідь: що відбувається з вашою
+            шкірою, чому, та який план лікування ми оберемо. Без залякувань, без «схем на 20 препаратів» —
+            лише те, що дійсно працює.
+          </p>
+          <p>
+            Пацієнти кажуть, що я поєдную рідкісне: сучасні знання, уважність до деталей
+            і легкість у спілкуванні. Не буду сперечатися 😉 Моє завдання — щоб ви виходили
+            з кабінету спокійними, з чітким планом і впевненістю, що ваша шкіра в надійних руках.
+          </p>
+        </div>
+        <ul class="about__features">
+          <li class="feature reveal">
+            <span class="feature__icon">🔬</span>
+            <h3>Доказова медицина</h3>
+            <p>Призначення лише за міжнародними протоколами — жодних «фуфломіцинів».</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon">🧑‍⚕️</span>
+            <h3>Індивідуальний підхід</h3>
+            <p>План лікування — під вашу шкіру, спосіб життя та бюджет.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon">💬</span>
+            <h3>Зв'язок після прийому</h3>
+            <p>Супроводжую пацієнтів у процесі лікування — ви не залишаєтесь сам на сам.</p>
+          </li>
+          <li class="feature reveal">
+            <span class="feature__icon">⏱️</span>
+            <h3>Без черг</h3>
+            <p>Прийом за записом — цінуємо ваш час і плануємо консультацію без поспіху.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Послуги ===== -->
+  <section class="section section--tint services" id="services">
+    <div class="container">
+      <p class="section__eyebrow reveal">Чим я допоможу</p>
+      <h2 class="section__title reveal">Послуги</h2>
+      <div class="cards">
+        <article class="card reveal">
+          <span class="card__icon">📋</span>
+          <h3>Консультація дерматолога</h3>
+          <p>Повний огляд, збір анамнезу, постановка діагнозу та зрозумілий план лікування.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">🔍</span>
+          <h3>Дерматоскопія</h3>
+          <p>Огляд родимок та новоутворень під збільшенням — рання діагностика меланоми.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">✨</span>
+          <h3>Лікування акне</h3>
+          <p>Сучасні протоколи лікування вугрової хвороби будь-якої важкості та постакне.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">🌿</span>
+          <h3>Псоріаз та екзема</h3>
+          <p>Контроль хронічних дерматозів: підбір терапії, що повертає якість життя.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">🦶</span>
+          <h3>Грибкові захворювання</h3>
+          <p>Діагностика та лікування грибка шкіри й нігтів (оніхомікозу) — до повного одужання.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">💇</span>
+          <h3>Трихологія</h3>
+          <p>Випадіння волосся, лупа, себорейний дерматит — знайдемо причину та рішення.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">🧒</span>
+          <h3>Дитяча дерматологія</h3>
+          <p>Делікатний підхід до маленьких пацієнтів: атопічний дерматит, висипи, попрілості.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon">💻</span>
+          <h3>Онлайн-консультація</h3>
+          <p>Не можете приїхати? Проконсультую дистанційно — по відео або за фото.</p>
+        </article>
+      </div>
+      <p class="services__price reveal">
+        💰 Вартість консультації — <strong>за домовленістю</strong>.
+        Напишіть або зателефонуйте, і ми узгодимо все за пару хвилин.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== Захворювання ===== -->
+  <section class="section diseases" id="diseases">
+    <div class="container">
+      <p class="section__eyebrow reveal">Корисно знати</p>
+      <h2 class="section__title reveal">З якими захворюваннями звертаються</h2>
+      <p class="section__lead reveal">
+        Коротко про найпоширеніші проблеми шкіри. Якщо впізнали свої симптоми —
+        не займайтеся самолікуванням, запишіться на огляд.
+      </p>
+      <div class="accordion" id="accordion">
+        <details class="accordion__item reveal">
+          <summary>Акне (вугрова хвороба)</summary>
+          <div class="accordion__body">
+            <p>Запальне захворювання сальних залоз: комедони, папули, гнійничкові висипи на обличчі,
+            спині та грудях. Виникає через гормональні зміни, генетику, неправильний догляд.</p>
+            <p><strong>Коли до лікаря:</strong> якщо висипи не проходять понад 2–3 місяці, залишають плями
+            чи рубці, або «косметика не допомагає». Сучасні протоколи дозволяють контролювати навіть важкі форми.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Псоріаз</summary>
+          <div class="accordion__body">
+            <p>Хронічне аутоімунне захворювання: рожеві бляшки з лущенням, найчастіше на ліктях, колінах
+            та волосистій частині голови. Не заразний, але потребує грамотного контролю.</p>
+            <p><strong>Коли до лікаря:</strong> при перших бляшках. Що раніше підібрана терапія,
+            то довші ремісії та менша площа ураження.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Атопічний дерматит</summary>
+          <div class="accordion__body">
+            <p>Хронічне запалення шкіри із сухістю, свербежем і висипами. Часто починається в дитинстві
+            й «супроводжує» людину роками, загострюючись від стресу, алергенів, сухого повітря.</p>
+            <p><strong>Коли до лікаря:</strong> якщо свербіж заважає спати, шкіра тріскається або
+            звичайні зволожувачі вже не рятують.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Грибок нігтів (оніхомікоз)</summary>
+          <div class="accordion__body">
+            <p>Потовщення, пожовтіння та руйнування нігтьової пластини. Сам не минає — лише
+            прогресує і заражає сусідні нігті та близьких людей.</p>
+            <p><strong>Коли до лікаря:</strong> за перших змін кольору чи форми нігтя.
+            Точний діагноз ставиться за аналізом — «лаки з реклами» без діагностики часто марні.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Розацеа</summary>
+          <div class="accordion__body">
+            <p>Почервоніння обличчя, судинні сіточки, папули на щоках і носі. Провокується гострою їжею,
+            алкоголем, перепадами температур, стресом.</p>
+            <p><strong>Коли до лікаря:</strong> якщо «рум'янець» став постійним. Розацеа добре контролюється,
+            але без лікування прогресує.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Родимки та новоутворення</summary>
+          <div class="accordion__body">
+            <p>Більшість родимок безпечні, але деякі можуть переродитися в меланому — найагресивнішу
+            пухлину шкіри. Правило ABCDE: Асиметрія, нерівні Краї, зміна Кольору, Діаметр >6 мм, Еволюція (зміни).</p>
+            <p><strong>Коли до лікаря:</strong> якщо родимка росте, свербить, кровить чи змінює колір —
+            негайно. А профілактичний огляд усіх родимок варто проходити раз на рік.</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Кропив'янка та алергічні висипи</summary>
+          <div class="accordion__body">
+            <p>Сверблячі пухирі, схожі на опік кропивою, що мігрують тілом. Причини — від харчових
+            алергенів і ліків до стресу та інфекцій.</p>
+            <p><strong>Коли до лікаря:</strong> якщо висип повторюється, тримається понад добу
+            або супроводжується набряком обличчя чи утрудненим диханням (це — невідкладний стан!).</p>
+          </div>
+        </details>
+        <details class="accordion__item reveal">
+          <summary>Себорейний дерматит і лупа</summary>
+          <div class="accordion__body">
+            <p>Лущення, свербіж і почервоніння шкіри голови, брів, крил носа. Звичайні шампуні
+            «від лупи» часто дають лише тимчасовий ефект.</p>
+            <p><strong>Коли до лікаря:</strong> якщо лупа не зникає за місяць догляду або з'являються
+            червоні плями та кірочки.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Відгуки ===== -->
+  <section class="section section--tint reviews" id="reviews">
+    <div class="container">
+      <p class="section__eyebrow reveal">Що кажуть пацієнти</p>
+      <h2 class="section__title reveal">Відгуки</h2>
+      <div class="reviews__grid">
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Два роки боролася з акне самостійно — креми, «чистки», нічого не працювало.
+          Євген за першу ж консультацію пояснив, у чому проблема, розписав план. Через 4 місяці
+          шкіра чиста. Шкодую лише, що не прийшла раніше!</p>
+          <footer>— Анастасія, 24 роки</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Прийшов перевірити родимку, яка почала змінюватися. Лікар зробив дерматоскопію,
+          все детально показав і пояснив. Дуже уважний і спокійний — жодного відчуття «конвеєра».
+          Тепер щороку тільки до нього.</p>
+          <footer>— Олександр, 37 років</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Привела доньку з атопічним дерматитом. Вперше зустріла лікаря, який не просто виписав
+          мазь, а пояснив догляд, побут, харчування. Дитина спить спокійно вперше за півроку.
+          Дякуємо, Євгене Олеговичу!</p>
+          <footer>— Марина, мама 5-річної Соні</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Псоріаз у мене 10 років, думав, що «це назавжди і нічого не вдієш». Після підібраної
+          терапії — найдовша ремісія за весь час. Лікар на зв'язку, відповідає на питання навіть
+          між прийомами. Рекомендую всім.</p>
+          <footer>— Віталій, 45 років</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Брала онлайн-консультацію, бо живу за кордоном. Все чітко: розбір аналізів, план
+          лікування, рецепти з європейськими аналогами препаратів. Сервіс на рівні найкращих
+          приватних клінік.</p>
+          <footer>— Ірина, 31 рік</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <p>Молодий, але дуже грамотний спеціаліст. Вилікував грибок нігтів, з яким я ходив
+          роками. Ніякого нав'язування зайвих процедур — все по суті. Видно, що людина
+          любить свою справу.</p>
+          <footer>— Сергій, 52 роки</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Форма запису ===== -->
+  <section class="section booking" id="booking">
+    <div class="container booking__inner">
+      <div class="booking__info reveal">
+        <p class="section__eyebrow">Запис</p>
+        <h2 class="section__title">Запишіться на консультацію</h2>
+        <p class="section__lead">
+          Залиште заявку — я особисто зв'яжуся з вами найближчим часом,
+          відповім на питання та підберемо зручний час прийому.
+        </p>
+        <ul class="booking__steps">
+          <li><span>1</span> Ви залишаєте ім'я та телефон</li>
+          <li><span>2</span> Я отримую повідомлення та передзвонюю</li>
+          <li><span>3</span> Узгоджуємо час — і до зустрічі на прийомі!</li>
+        </ul>
+      </div>
+      <form class="form reveal" id="bookingForm" novalidate>
+        <div class="form__field">
+          <label for="name">Ваше ім'я *</label>
+          <input type="text" id="name" name="name" placeholder="Як до вас звертатися?" required autocomplete="name">
+        </div>
+        <div class="form__field">
+          <label for="phone">Телефон *</label>
+          <input type="tel" id="phone" name="phone" placeholder="+38 (0__) ___-__-__" required autocomplete="tel">
+        </div>
+        <div class="form__field">
+          <label for="message">Що вас турбує? <small>(необов'язково)</small></label>
+          <textarea id="message" name="message" rows="4" placeholder="Коротко опишіть проблему або зручний час для дзвінка"></textarea>
+        </div>
+        <!-- honeypot: приховане поле проти спам-ботів -->
+        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+        <button type="submit" class="btn btn--primary btn--lg form__submit" id="submitBtn">
+          Надіслати заявку
+        </button>
+        <p class="form__status" id="formStatus" role="status"></p>
+        <p class="form__note">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== Контакти ===== -->
+  <section class="section section--tint contacts" id="contacts">
+    <div class="container">
+      <p class="section__eyebrow reveal">Зв'язок</p>
+      <h2 class="section__title reveal">Контакти</h2>
+      <div class="contacts__grid">
+        <a class="contact reveal" href="tel:+380676661488">
+          <span class="contact__icon">📞</span>
+          <h3>Телефон</h3>
+          <p>+38 (067) 666-14-88</p>
+        </a>
+        <a class="contact reveal" href="https://t.me/zhenya1771" target="_blank" rel="noopener">
+          <span class="contact__icon">✈️</span>
+          <h3>Telegram</h3>
+          <p>@zhenya1771</p>
+        </a>
+        <div class="contact reveal">
+          <span class="contact__icon">📍</span>
+          <h3>Місто</h3>
+          <p>Київ<br><small>адреса кабінету — під час запису</small></p>
+        </div>
+        <div class="contact reveal">
+          <span class="contact__icon">🕐</span>
+          <h3>Графік</h3>
+          <p>Пн–Сб: 9:00–19:00<br><small>прийом за попереднім записом</small></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Підвал ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Євген Січкар — лікар-дерматолог, м. Київ</p>
+      <p class="footer__note">Сайт має інформаційний характер і не замінює консультацію лікаря.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
