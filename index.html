@@ -13,11 +13,37 @@
 </head>
 <body>
 
+  <!-- ===== Спрайт іконок (SVG) ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-pulse" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="8.5 12 11 14.5 15.5 10"/></symbol>
+      <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M15 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="8" r="4"/><polyline points="16 11.5 18 13.5 22 9.5"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></symbol>
+      <symbol id="i-clipboard" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.7 4.8L18.5 9.5 13.7 11.2 12 16l-1.7-4.8L5.5 9.5l4.8-1.7z"/><path d="M18 15l.7 1.8L20.5 17.5 18.7 18.2 18 20l-.7-1.8L15.5 17.5l1.8-.7z"/></symbol>
+      <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 2.7s6 6.2 6 10.5a6 6 0 0 1-12 0c0-4.3 6-10.5 6-10.5z"/></symbol>
+      <symbol id="i-mushroom" viewBox="0 0 24 24"><path d="M3.5 11a8.5 8.5 0 0 1 17 0z"/><path d="M9.5 11v6.5a2.5 2.5 0 0 0 5 0V11"/></symbol>
+      <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></symbol>
+      <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9.5" x2="9.01" y2="9.5"/><line x1="15" y1="9.5" x2="15.01" y2="9.5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2.5"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+      <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+      <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 22 12 19 17 22 15.79 13.88"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
+      <symbol id="i-phone-call" viewBox="0 0 24 24"><path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    </defs>
+  </svg>
+
   <!-- ===== Шапка ===== -->
   <header class="header" id="header">
     <div class="container header__inner">
       <a href="#hero" class="logo">
-        <span class="logo__icon">🩺</span>
+        <span class="logo__icon"><svg class="icon"><use href="#i-pulse"/></svg></span>
         <span class="logo__text">Євген Січкар<small>лікар-дерматолог</small></span>
       </a>
       <nav class="nav" id="nav">
@@ -61,7 +87,9 @@
         </div>
         <div class="hero__actions">
           <a href="#booking" class="btn btn--primary btn--lg">Записатися на консультацію</a>
-          <a href="tel:+380676661488" class="btn btn--ghost btn--lg">📞 067 666 14 88</a>
+          <a href="tel:+380676661488" class="btn btn--ghost btn--lg">
+            <svg class="icon"><use href="#i-phone"/></svg> 067 666 14 88
+          </a>
         </div>
       </div>
       <div class="hero__photo reveal">
@@ -70,7 +98,7 @@
                onerror="this.onerror=null;this.src='assets/doctor-placeholder.svg'">
         </div>
         <div class="hero__photo-card">
-          <span>🎓</span>
+          <span class="hero__photo-card-icon"><svg class="icon"><use href="#i-award"/></svg></span>
           <p>Вища медична освіта<br><strong>НМУ ім. О.О. Богомольця</strong></p>
         </div>
       </div>
@@ -103,22 +131,22 @@
         </div>
         <ul class="about__features">
           <li class="feature reveal">
-            <span class="feature__icon">🔬</span>
+            <span class="feature__icon"><svg class="icon"><use href="#i-shield"/></svg></span>
             <h3>Доказова медицина</h3>
             <p>Призначення лише за міжнародними протоколами — жодних «фуфломіцинів».</p>
           </li>
           <li class="feature reveal">
-            <span class="feature__icon">🧑‍⚕️</span>
+            <span class="feature__icon"><svg class="icon"><use href="#i-user-check"/></svg></span>
             <h3>Індивідуальний підхід</h3>
             <p>План лікування — під вашу шкіру, спосіб життя та бюджет.</p>
           </li>
           <li class="feature reveal">
-            <span class="feature__icon">💬</span>
+            <span class="feature__icon"><svg class="icon"><use href="#i-message"/></svg></span>
             <h3>Зв'язок після прийому</h3>
             <p>Супроводжую пацієнтів у процесі лікування — ви не залишаєтесь сам на сам.</p>
           </li>
           <li class="feature reveal">
-            <span class="feature__icon">⏱️</span>
+            <span class="feature__icon"><svg class="icon"><use href="#i-clock"/></svg></span>
             <h3>Без черг</h3>
             <p>Прийом за записом — цінуємо ваш час і плануємо консультацію без поспіху.</p>
           </li>
@@ -134,48 +162,49 @@
       <h2 class="section__title reveal">Послуги</h2>
       <div class="cards">
         <article class="card reveal">
-          <span class="card__icon">📋</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-clipboard"/></svg></span>
           <h3>Консультація дерматолога</h3>
           <p>Повний огляд, збір анамнезу, постановка діагнозу та зрозумілий план лікування.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">🔍</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-search"/></svg></span>
           <h3>Дерматоскопія</h3>
           <p>Огляд родимок та новоутворень під збільшенням — рання діагностика меланоми.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">✨</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-sparkles"/></svg></span>
           <h3>Лікування акне</h3>
           <p>Сучасні протоколи лікування вугрової хвороби будь-якої важкості та постакне.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">🌿</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-droplet"/></svg></span>
           <h3>Псоріаз та екзема</h3>
           <p>Контроль хронічних дерматозів: підбір терапії, що повертає якість життя.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">🦶</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-mushroom"/></svg></span>
           <h3>Грибкові захворювання</h3>
           <p>Діагностика та лікування грибка шкіри й нігтів (оніхомікозу) — до повного одужання.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">💇</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-scissors"/></svg></span>
           <h3>Трихологія</h3>
           <p>Випадіння волосся, лупа, себорейний дерматит — знайдемо причину та рішення.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">🧒</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-smile"/></svg></span>
           <h3>Дитяча дерматологія</h3>
           <p>Делікатний підхід до маленьких пацієнтів: атопічний дерматит, висипи, попрілості.</p>
         </article>
         <article class="card reveal">
-          <span class="card__icon">💻</span>
+          <span class="card__icon"><svg class="icon"><use href="#i-video"/></svg></span>
           <h3>Онлайн-консультація</h3>
           <p>Не можете приїхати? Проконсультую дистанційно — по відео або за фото.</p>
         </article>
       </div>
       <p class="services__price reveal">
-        💰 Вартість консультації — <strong>за домовленістю</strong>.
+        <svg class="icon"><use href="#i-tag"/></svg>
+        Вартість консультації — <strong>за домовленістю</strong>.
         Напишіть або зателефонуйте, і ми узгодимо все за пару хвилин.
       </p>
     </div>
@@ -366,22 +395,22 @@
       <h2 class="section__title reveal">Контакти</h2>
       <div class="contacts__grid">
         <a class="contact reveal" href="tel:+380676661488">
-          <span class="contact__icon">📞</span>
+          <span class="contact__icon"><svg class="icon"><use href="#i-phone"/></svg></span>
           <h3>Телефон</h3>
           <p>+38 (067) 666-14-88</p>
         </a>
         <a class="contact reveal" href="https://t.me/zhenya1771" target="_blank" rel="noopener">
-          <span class="contact__icon">✈️</span>
+          <span class="contact__icon"><svg class="icon"><use href="#i-send"/></svg></span>
           <h3>Telegram</h3>
           <p>@zhenya1771</p>
         </a>
         <div class="contact reveal">
-          <span class="contact__icon">📍</span>
+          <span class="contact__icon"><svg class="icon"><use href="#i-map-pin"/></svg></span>
           <h3>Місто</h3>
           <p>Київ<br><small>адреса кабінету — під час запису</small></p>
         </div>
         <div class="contact reveal">
-          <span class="contact__icon">🕐</span>
+          <span class="contact__icon"><svg class="icon"><use href="#i-calendar"/></svg></span>
           <h3>Графік</h3>
           <p>Пн–Сб: 9:00–19:00<br><small>прийом за попереднім записом</small></p>
         </div>
@@ -396,6 +425,12 @@
       <p class="footer__note">Сайт має інформаційний характер і не замінює консультацію лікаря.</p>
     </div>
   </footer>
+
+  <!-- ===== Плаваюча кнопка ===== -->
+  <a href="#booking" class="fab" aria-label="Записатися на консультацію">
+    <svg class="icon"><use href="#i-calendar"/></svg>
+    <span>Записатися</span>
+  </a>
 
   <script src="script.js"></script>
 </body>

@@ -24,6 +24,19 @@
 
 html { scroll-behavior: smooth; }
 
+/* ---------- Іконки (SVG) ---------- */
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+  flex: none;
+}
+
 body {
   font-family: var(--font);
   font-size: 17px;
@@ -96,7 +109,17 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   color: var(--c-ink);
 }
-.logo__icon { font-size: 28px; }
+.logo__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--c-accent), var(--c-accent-dark));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(14,165,165,.35);
+}
+.logo__icon .icon { width: 22px; height: 22px; stroke-width: 2; }
 .logo__text {
   font-weight: 800;
   font-size: 18px;
@@ -147,12 +170,34 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Герой ---------- */
 .hero {
+  position: relative;
   background:
     radial-gradient(900px 500px at 85% -10%, rgba(14,165,165,.14), transparent 60%),
     linear-gradient(180deg, #f6fbfb 0%, #ffffff 100%);
   overflow: hidden;
 }
+/* Декоративні м'які плями */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -100px;
+  width: 460px; height: 460px;
+  background: radial-gradient(circle at 35% 35%, rgba(14,165,165,.20), transparent 68%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -160px; left: -120px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle at 50% 50%, rgba(11,132,132,.12), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
 .hero__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.15fr .85fr;
   gap: 48px;
@@ -243,12 +288,47 @@ img { max-width: 100%; display: block; }
   line-height: 1.35;
   color: var(--c-ink-soft);
 }
-.hero__photo-card span { font-size: 26px; }
+.hero__photo-card-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(14,165,165,.12);
+  color: var(--c-accent-dark);
+  flex: none;
+}
+.hero__photo-card-icon .icon { width: 24px; height: 24px; }
 .hero__photo-card strong { color: var(--c-ink); }
+.btn .icon { width: 20px; height: 20px; stroke-width: 2; }
 
 /* ---------- Секції ---------- */
-.section { padding-block: 84px; }
-.section--tint { background: var(--c-tint); }
+.section {
+  position: relative;
+  padding-block: 84px;
+  overflow: hidden;
+}
+.section > .container { position: relative; z-index: 1; }
+/* М'яка світлова пляма на світлих секціях */
+.about::before,
+.diseases::before,
+.booking::before {
+  content: "";
+  position: absolute;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(14,165,165,.10), transparent 70%);
+  pointer-events: none;
+}
+.about::before { top: -180px; left: -160px; }
+.diseases::before { top: 40px; right: -220px; }
+.booking::before { bottom: -200px; left: -140px; }
+/* Крапкова текстура на тонованих секціях */
+.section--tint {
+  background-color: var(--c-tint);
+  background-image: radial-gradient(rgba(11,37,64,.055) 1.1px, transparent 1.1px);
+  background-size: 22px 22px;
+}
 .section__eyebrow {
   color: var(--c-accent-dark);
   font-weight: 700;
@@ -290,7 +370,18 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius);
   padding: 22px;
 }
-.feature__icon { font-size: 30px; display: block; margin-bottom: 10px; }
+.feature__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--c-accent-dark);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+.feature__icon .icon { width: 26px; height: 26px; }
 .feature h3 { font-size: 16px; margin-bottom: 6px; }
 .feature p { font-size: 14px; color: var(--c-ink-soft); }
 
@@ -314,7 +405,23 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--shadow);
   border-color: rgba(14,165,165,.35);
 }
-.card__icon { font-size: 34px; display: block; margin-bottom: 14px; }
+.card__icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(14,165,165,.16), rgba(14,165,165,.06));
+  color: var(--c-accent-dark);
+  margin-bottom: 16px;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.card__icon .icon { width: 28px; height: 28px; }
+.card:hover .card__icon {
+  background: var(--c-accent);
+  color: #fff;
+  transform: scale(1.06);
+}
 .card h3 { font-size: 17px; margin-bottom: 8px; }
 .card p { font-size: 14.5px; color: var(--c-ink-soft); }
 .services__price {
@@ -322,7 +429,13 @@ img { max-width: 100%; display: block; }
   text-align: center;
   font-size: 18px;
   color: var(--c-ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+.services__price .icon { width: 24px; height: 24px; color: var(--c-accent-dark); }
 .services__price strong { color: var(--c-ink); }
 
 /* ---------- Захворювання (акордеон) ---------- */
@@ -486,7 +599,17 @@ img { max-width: 100%; display: block; }
   transition: transform .2s ease, box-shadow .2s ease;
 }
 a.contact:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-.contact__icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.contact__icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(14,165,165,.16), rgba(14,165,165,.06));
+  color: var(--c-accent-dark);
+  margin: 0 auto 12px;
+}
+.contact__icon .icon { width: 26px; height: 26px; }
 .contact h3 { font-size: 16px; margin-bottom: 6px; }
 .contact p { font-size: 15px; color: var(--c-ink-soft); }
 .contact small { font-size: 12.5px; }
@@ -505,6 +628,27 @@ a.contact:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
   font-size: 14px;
 }
 .footer__note { opacity: .7; }
+
+/* ---------- Плаваюча кнопка ---------- */
+.fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: var(--c-accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 10px 28px rgba(14,165,165,.45);
+  transition: transform .18s ease, background .18s ease;
+}
+.fab:hover { background: var(--c-accent-dark); transform: translateY(-2px); }
+.fab .icon { width: 20px; height: 20px; stroke-width: 2; }
 
 /* ---------- Анімація появи ---------- */
 .reveal {
@@ -565,6 +709,11 @@ a.contact:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
   .form { padding: 24px 20px; }
   .hero__photo-card { position: static; translate: none; margin-top: 18px; justify-content: center; white-space: normal; }
   .footer__inner { flex-direction: column; text-align: center; }
+
+  /* Компактна плаваюча кнопка */
+  .fab { right: 16px; bottom: 16px; padding: 14px; }
+  .fab span { display: none; }
+  .fab .icon { width: 24px; height: 24px; }
 }
 
 @media (max-width: 420px) {
