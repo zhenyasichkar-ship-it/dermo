@@ -416,15 +416,21 @@
         </div>
       </div>
 
-      <!-- Карта: поки як банер із кнопкою-маршрутом.
-           Щоб вставити живу карту — замініть цей блок на <iframe> з Google Maps (див. README). -->
+      <!-- Жива карта Google Maps -->
       <div class="map reveal">
-        <div class="map__pin"><svg class="icon"><use href="#i-map-pin"/></svg></div>
-        <h3>Кабінет у Києві</h3>
-        <p>Точну адресу підтверджую під час запису на прийом.</p>
-        <a class="btn btn--primary" href="https://maps.app.goo.gl/jAJH8CkrYU46GYbDA" target="_blank" rel="noopener">
-          <svg class="icon"><use href="#i-map-pin"/></svg> Переглянути на карті
-        </a>
+        <iframe class="map__frame"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d657.0056965183004!2d30.503065836066614!3d50.46165011025927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sru!2sua!4v1783264566935!5m2!1sru!2sua"
+          allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+          title="Розташування кабінету на карті"></iframe>
+        <div class="map__bar">
+          <div class="map__bar-text">
+            <strong>Кабінет у Києві</strong>
+            <span>Точну адресу підтверджую під час запису на прийом</span>
+          </div>
+          <a class="btn btn--primary" href="https://maps.app.goo.gl/jAJH8CkrYU46GYbDA" target="_blank" rel="noopener">
+            <svg class="icon"><use href="#i-map-pin"/></svg> Маршрут
+          </a>
+        </div>
       </div>
     </div>
   </section>
