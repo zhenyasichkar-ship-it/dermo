@@ -7,15 +7,25 @@
  *   KV_REST_API_TOKEN
  */
 
+// Підтримуємо обидві схеми іменування: Vercel KV та Upstash Redis
+function kvConfig() {
+  return {
+    url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+  };
+}
+
 export function kvEnabled() {
-  return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+  const { url, token } = kvConfig();
+  return !!(url && token);
 }
 
 async function kvCommand(cmd) {
-  const res = await fetch(process.env.KV_REST_API_URL, {
+  const { url, token } = kvConfig();
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(cmd),
