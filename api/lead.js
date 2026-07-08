@@ -1,29 +1,11 @@
 /**
- * Vercel Serverless Function: приймає заявку з форми
+ * Vercel Serverless Function: приймає заявку з форми запису
  * та надсилає повідомлення в Telegram через бота.
  *
  * Потрібні змінні оточення (Vercel → Settings → Environment Variables):
  *   TG_BOT_TOKEN — токен бота від @BotFather
  *   TG_CHAT_ID   — ваш chat_id (дізнатися у @userinfobot)
- *
- * Якщо підключено Vercel KV — заявка додатково зберігається в базу
- * для перегляду в адмін-панелі (/admin).
  */
-
-import { kvEnabled, kvGet, kvSet } from './_kv.js';
-
-const MAX_LEADS = 500; // зберігаємо останні N заявок
-
-async function saveLead(lead) {
-  if (!kvEnabled()) return;
-  try {
-    const leads = (await kvGet('leads')) || [];
-    leads.unshift(lead);
-    await kvSet('leads', leads.slice(0, MAX_LEADS));
-  } catch (err) {
-    console.error('Не вдалося зберегти заявку в KV:', err);
-  }
-}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -54,24 +36,21 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, error: 'Сервіс тимчасово недоступний' });
   }
 
-  // Зберігаємо заявку в базу (для адмінки), навіть якщо Telegram не відповість
-  await saveLead({
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-    name: cleanName,
-    phone: cleanPhone,
-    message: cleanMessage,
-    ts: new Date().toISOString(),
-    status: 'new',
+  const time = new Date().toLocaleString('uk-UA', {
+    timeZone: 'Europe/Kyiv',
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
   });
 
+  // <code> навколо телефону — щоб можна було скопіювати номер одним дотиком
   const text = [
-    '🩺 <b>Нова заявка з сайту!</b>',
+    '🩺 <b>Нова заявка на консультацію</b>',
     '',
     `👤 <b>Ім'я:</b> ${escapeHtml(cleanName)}`,
-    `📞 <b>Телефон:</b> ${escapeHtml(cleanPhone)}`,
-    cleanMessage ? `💬 <b>Повідомлення:</b> ${escapeHtml(cleanMessage)}` : null,
+    `📞 <b>Телефон:</b> <code>${escapeHtml(cleanPhone)}</code>`,
+    cleanMessage ? `💬 <b>Що турбує:</b> ${escapeHtml(cleanMessage)}` : null,
     '',
-    `🕐 ${new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' })}`,
+    `🕐 <i>${time}, Київ</i>`,
   ]
     .filter((line) => line !== null)
     .join('\n');
@@ -84,6 +63,7 @@ export default async function handler(req, res) {
         chat_id: chatId,
         text,
         parse_mode: 'HTML',
+        disable_web_page_preview: true,
       }),
     });
 

@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "type": "module",
-  "name": "dermo-landing",
-  "description": "Лендінг лікаря-дерматолога з формою запису та адмін-панеллю"
-}
