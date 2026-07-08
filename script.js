@@ -36,6 +36,27 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 // ---------- Рік у підвалі ----------
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// ---------- Актуальні налаштування (з адмін-панелі) ----------
+// Підставляє телефон, графік, ціну тощо, якщо їх змінили в /admin.
+// Якщо ендпоінт недоступний (локальний перегляд) — лишаються значення з HTML.
+fetch('/api/settings')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((s) => {
+    if (!s) return;
+    document.querySelectorAll('[data-bind]').forEach((el) => {
+      const key = el.dataset.bind;
+      if (s[key]) el.textContent = s[key];
+    });
+    if (s.phoneRaw) {
+      document.querySelectorAll('[data-tel]').forEach((a) => { a.href = 'tel:' + s.phoneRaw; });
+    }
+    if (s.telegram) {
+      const handle = s.telegram.replace(/^@/, '');
+      document.querySelectorAll('[data-tg]').forEach((a) => { a.href = 'https://t.me/' + handle; });
+    }
+  })
+  .catch(() => {});
+
 // ---------- Легка маска телефону ----------
 const phoneInput = document.getElementById('phone');
 phoneInput.addEventListener('input', () => {

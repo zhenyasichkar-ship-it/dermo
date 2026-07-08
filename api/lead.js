@@ -5,7 +5,25 @@
  * Потрібні змінні оточення (Vercel → Settings → Environment Variables):
  *   TG_BOT_TOKEN — токен бота від @BotFather
  *   TG_CHAT_ID   — ваш chat_id (дізнатися у @userinfobot)
+ *
+ * Якщо підключено Vercel KV — заявка додатково зберігається в базу
+ * для перегляду в адмін-панелі (/admin).
  */
+
+import { kvEnabled, kvGet, kvSet } from './_kv.js';
+
+const MAX_LEADS = 500; // зберігаємо останні N заявок
+
+async function saveLead(lead) {
+  if (!kvEnabled()) return;
+  try {
+    const leads = (await kvGet('leads')) || [];
+    leads.unshift(lead);
+    await kvSet('leads', leads.slice(0, MAX_LEADS));
+  } catch (err) {
+    console.error('Не вдалося зберегти заявку в KV:', err);
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -35,6 +53,16 @@ export default async function handler(req, res) {
     console.error('TG_BOT_TOKEN / TG_CHAT_ID не налаштовані');
     return res.status(500).json({ ok: false, error: 'Сервіс тимчасово недоступний' });
   }
+
+  // Зберігаємо заявку в базу (для адмінки), навіть якщо Telegram не відповість
+  await saveLead({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name: cleanName,
+    phone: cleanPhone,
+    message: cleanMessage,
+    ts: new Date().toISOString(),
+    status: 'new',
+  });
 
   const text = [
     '🩺 <b>Нова заявка з сайту!</b>',

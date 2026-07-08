@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Адмін-панель · Євген Січкар</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+  <style>
+    :root{
+      --ink:#0b2540; --soft:#43607e; --accent:#0ea5a5; --accent-d:#0b8484;
+      --tint:#f2f9f9; --line:#dcebeb; --bg:#eef5f6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Manrope',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+    a{color:var(--accent-d)}
+    .btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;
+      padding:10px 18px;font:inherit;font-weight:700;cursor:pointer;transition:.15s}
+    .btn--primary{background:var(--accent);color:#fff}
+    .btn--primary:hover{background:var(--accent-d)}
+    .btn--ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+    .btn--ghost:hover{border-color:var(--accent)}
+    .btn--sm{padding:6px 12px;font-size:13px;border-radius:8px}
+    .btn--danger{background:#fff;border:1.5px solid #f0c4c4;color:#d33c3c}
+    .btn--danger:hover{background:#fff4f4}
+
+    /* Логін */
+    .login{min-height:100vh;display:grid;place-items:center;padding:20px}
+    .login__card{background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(11,37,64,.12);
+      padding:36px;width:min(400px,100%);text-align:center}
+    .login__icon{font-size:44px}
+    .login__card h1{font-size:22px;margin:10px 0 4px}
+    .login__card p{color:var(--soft);font-size:14px;margin-bottom:22px}
+    .field{display:grid;gap:6px;text-align:left;margin-bottom:16px}
+    .field label{font-weight:700;font-size:14px}
+    .field input,.field textarea{font:inherit;font-size:15px;padding:12px 14px;border:1.5px solid var(--line);
+      border-radius:10px;background:#fbfdfd;color:var(--ink);width:100%}
+    .field input:focus,.field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px rgba(14,165,165,.14)}
+    .msg{font-size:14px;font-weight:600;min-height:1.2em;margin-top:6px}
+    .msg.err{color:#d33c3c}
+    .msg.ok{color:#12855b}
+
+    /* Панель */
+    .app{display:none;min-height:100vh}
+    .topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+    .topbar__in{max-width:1000px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;
+      justify-content:space-between;gap:16px}
+    .brand{font-weight:800;display:flex;align-items:center;gap:8px}
+    .brand small{font-weight:600;color:var(--soft);font-size:12px}
+    .tabs{display:flex;gap:6px}
+    .tab{border:0;background:transparent;font:inherit;font-weight:700;color:var(--soft);
+      padding:8px 16px;border-radius:10px;cursor:pointer}
+    .tab.is-active{background:var(--tint);color:var(--accent-d)}
+    .wrap{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+    .panel{display:none}
+    .panel.is-active{display:block}
+    .panel__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    .panel__head h2{font-size:22px}
+
+    /* Заявки */
+    .stat{color:var(--soft);font-size:14px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:13px 14px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{background:var(--tint);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+    tr:last-child td{border-bottom:0}
+    .lead--done{opacity:.55}
+    .badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+    .badge--new{background:#e6f6f0;color:#12855b}
+    .badge--done{background:#eef1f4;color:var(--soft)}
+    .row-actions{display:flex;gap:6px;flex-wrap:wrap}
+    .msg-cell{max-width:280px;color:var(--soft)}
+    .empty{padding:44px 20px;text-align:center;color:var(--soft)}
+
+    /* Налаштування */
+    .settings{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;max-width:560px}
+    .settings .field{margin-bottom:18px}
+    .hint{font-size:12.5px;color:var(--soft);font-weight:500}
+    .banner{background:#fff8e6;border:1px solid #f0e0b0;color:#7a5c00;border-radius:12px;
+      padding:12px 16px;font-size:14px;margin-bottom:18px}
+    @media(max-width:640px){
+      .msg-cell{max-width:none}
+      table,thead,tbody,th,td,tr{display:block}
+      thead{display:none}
+      td{border-bottom:0;padding:6px 14px}
+      tr{border-bottom:1px solid var(--line);padding:10px 0}
+      td::before{content:attr(data-label);font-weight:700;font-size:12px;text-transform:uppercase;
+        color:var(--soft);display:block;margin-bottom:2px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Екран входу ===== -->
+  <div class="login" id="loginScreen">
+    <form class="login__card" id="loginForm">
+      <div class="login__icon">🔒</div>
+      <h1>Адмін-панель</h1>
+      <p>Введіть пароль для доступу до заявок і налаштувань</p>
+      <div class="field">
+        <label for="pass">Пароль</label>
+        <input type="password" id="pass" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn--primary" style="width:100%">Увійти</button>
+      <p class="msg err" id="loginMsg"></p>
+    </form>
+  </div>
+
+  <!-- ===== Панель ===== -->
+  <div class="app" id="app">
+    <div class="topbar">
+      <div class="topbar__in">
+        <div class="brand">🩺 Січкар <small>адмін</small></div>
+        <div class="tabs">
+          <button class="tab is-active" data-tab="leads">Заявки</button>
+          <button class="tab" data-tab="settings">Налаштування</button>
+        </div>
+        <button class="btn btn--ghost btn--sm" id="logout">Вийти</button>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="banner" id="kvBanner" style="display:none">
+        ⚠️ База даних (KV) не підключена — заявки не зберігаються і не відображаються.
+        Підключіть Vercel KV (див. README), щоб бачити список заявок.
+      </div>
+
+      <!-- Заявки -->
+      <section class="panel is-active" id="panel-leads">
+        <div class="panel__head">
+          <div>
+            <h2>Заявки на консультацію</h2>
+            <div class="stat" id="leadsStat"></div>
+          </div>
+          <button class="btn btn--ghost btn--sm" id="refresh">↻ Оновити</button>
+        </div>
+        <div class="card">
+          <table>
+            <thead>
+              <tr><th>Дата</th><th>Ім'я</th><th>Телефон</th><th>Повідомлення</th><th>Статус</th><th>Дії</th></tr>
+            </thead>
+            <tbody id="leadsBody"></tbody>
+          </table>
+          <div class="empty" id="leadsEmpty" style="display:none">Заявок поки немає.</div>
+        </div>
+      </section>
+
+      <!-- Налаштування -->
+      <section class="panel" id="panel-settings">
+        <div class="panel__head"><h2>Налаштування сайту</h2></div>
+        <form class="settings" id="settingsForm">
+          <div class="field">
+            <label for="s-phoneDisplay">Телефон (як показувати)</label>
+            <input id="s-phoneDisplay" name="phoneDisplay">
+          </div>
+          <div class="field">
+            <label for="s-phoneRaw">Телефон для дзвінка (у форматі +380…)</label>
+            <input id="s-phoneRaw" name="phoneRaw">
+            <span class="hint">Використовується у посиланні «подзвонити». Лише цифри та +.</span>
+          </div>
+          <div class="field">
+            <label for="s-telegram">Telegram (@нік)</label>
+            <input id="s-telegram" name="telegram">
+          </div>
+          <div class="field">
+            <label for="s-schedule">Графік прийому</label>
+            <input id="s-schedule" name="schedule">
+          </div>
+          <div class="field">
+            <label for="s-priceNote">Вартість консультації</label>
+            <input id="s-priceNote" name="priceNote">
+          </div>
+          <div class="field">
+            <label for="s-addressNote">Підпис під картою (адреса)</label>
+            <input id="s-addressNote" name="addressNote">
+          </div>
+          <button type="submit" class="btn btn--primary">Зберегти зміни</button>
+          <p class="msg" id="settingsMsg"></p>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const SETTING_KEYS = ['phoneDisplay','phoneRaw','telegram','schedule','priceNote','addressNote'];
+    let PASS = sessionStorage.getItem('adminPass') || '';
+
+    const $ = (s) => document.querySelector(s);
+
+    async function api(action, extra = {}) {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + PASS },
+        body: JSON.stringify({ action, ...extra }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 401) { logout(); throw new Error('401'); }
+      return data;
+    }
+
+    /* ---- Логін ---- */
+    $('#loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      PASS = $('#pass').value;
+      $('#loginMsg').textContent = '';
+      try {
+        const data = await api('login');
+        if (data.ok) {
+          sessionStorage.setItem('adminPass', PASS);
+          showApp(data.kv);
+        } else {
+          $('#loginMsg').textContent = data.error || 'Невірний пароль';
+        }
+      } catch (err) {
+        $('#loginMsg').textContent = 'Невірний пароль';
+      }
+    });
+
+    function logout() {
+      sessionStorage.removeItem('adminPass');
+      PASS = '';
+      $('#app').style.display = 'none';
+      $('#loginScreen').style.display = 'grid';
+      $('#pass').value = '';
+    }
+    $('#logout').addEventListener('click', logout);
+
+    function showApp(kvOn) {
+      $('#loginScreen').style.display = 'none';
+      $('#app').style.display = 'block';
+      $('#kvBanner').style.display = kvOn ? 'none' : 'block';
+      loadLeads();
+      loadSettings();
+    }
+
+    /* ---- Вкладки ---- */
+    document.querySelectorAll('.tab').forEach((t) => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach((x) => x.classList.remove('is-active'));
+        document.querySelectorAll('.panel').forEach((x) => x.classList.remove('is-active'));
+        t.classList.add('is-active');
+        $('#panel-' + t.dataset.tab).classList.add('is-active');
+      });
+    });
+
+    /* ---- Заявки ---- */
+    function fmtDate(iso) {
+      try { return new Date(iso).toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }); }
+      catch { return iso; }
+    }
+    function esc(s) {
+      return String(s || '').replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+    }
+
+    async function loadLeads() {
+      const data = await api('listLeads');
+      const leads = data.leads || [];
+      const body = $('#leadsBody');
+      const nNew = leads.filter((l) => l.status !== 'done').length;
+      $('#leadsStat').textContent = `Усього: ${leads.length} · Нових: ${nNew}`;
+      $('#leadsEmpty').style.display = leads.length ? 'none' : 'block';
+      body.innerHTML = leads.map((l) => {
+        const done = l.status === 'done';
+        return `<tr class="${done ? 'lead--done' : ''}">
+          <td data-label="Дата">${fmtDate(l.ts)}</td>
+          <td data-label="Ім'я"><strong>${esc(l.name)}</strong></td>
+          <td data-label="Телефон"><a href="tel:${esc(l.phone)}">${esc(l.phone)}</a></td>
+          <td data-label="Повідомлення" class="msg-cell">${esc(l.message) || '—'}</td>
+          <td data-label="Статус"><span class="badge badge--${done ? 'done' : 'new'}">${done ? 'опрацьовано' : 'нова'}</span></td>
+          <td data-label="Дії"><div class="row-actions">
+            <button class="btn btn--ghost btn--sm" data-toggle="${l.id}" data-status="${done ? 'new' : 'done'}">${done ? '↩ В роботу' : '✓ Готово'}</button>
+            <button class="btn btn--danger btn--sm" data-del="${l.id}">Видалити</button>
+          </div></td>
+        </tr>`;
+      }).join('');
+    }
+
+    $('#leadsBody').addEventListener('click', async (e) => {
+      const toggle = e.target.closest('[data-toggle]');
+      const del = e.target.closest('[data-del]');
+      if (toggle) {
+        await api('updateLead', { id: toggle.dataset.toggle, status: toggle.dataset.status });
+        loadLeads();
+      } else if (del) {
+        if (confirm('Видалити цю заявку?')) {
+          await api('deleteLead', { id: del.dataset.del });
+          loadLeads();
+        }
+      }
+    });
+    $('#refresh').addEventListener('click', loadLeads);
+
+    /* ---- Налаштування ---- */
+    async function loadSettings() {
+      const data = await api('getSettings');
+      const s = data.settings || {};
+      SETTING_KEYS.forEach((k) => { const el = $('#s-' + k); if (el) el.value = s[k] || ''; });
+    }
+
+    $('#settingsForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const settings = {};
+      SETTING_KEYS.forEach((k) => { settings[k] = $('#s-' + k).value; });
+      const msg = $('#settingsMsg');
+      msg.textContent = 'Зберігаємо…';
+      msg.className = 'msg';
+      const data = await api('saveSettings', { settings });
+      if (data.ok) { msg.textContent = '✅ Збережено! Зміни вже на сайті.'; msg.className = 'msg ok'; }
+      else { msg.textContent = data.error || 'Помилка'; msg.className = 'msg err'; }
+    });
+
+    /* ---- Автовхід, якщо пароль уже збережено ---- */
+    (async () => {
+      if (PASS) {
+        try { const d = await api('login'); if (d.ok) showApp(d.kv); } catch {}
+      }
+    })();
+  </script>
+</body>
+</html>

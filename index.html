@@ -87,8 +87,8 @@
         </div>
         <div class="hero__actions">
           <a href="#booking" class="btn btn--primary btn--lg">Записатися на консультацію</a>
-          <a href="tel:+380676661488" class="btn btn--ghost btn--lg">
-            <svg class="icon"><use href="#i-phone"/></svg> 067 666 14 88
+          <a href="tel:+380676661488" class="btn btn--ghost btn--lg" data-tel>
+            <svg class="icon"><use href="#i-phone"/></svg> <span data-bind="phoneDisplay">067 666 14 88</span>
           </a>
         </div>
       </div>
@@ -204,7 +204,7 @@
       </div>
       <p class="services__price reveal">
         <svg class="icon"><use href="#i-tag"/></svg>
-        Вартість консультації — <strong>за домовленістю</strong>.
+        Вартість консультації — <strong data-bind="priceNote">за домовленістю</strong>.
         Напишіть або зателефонуйте, і ми узгодимо все за пару хвилин.
       </p>
     </div>
@@ -482,15 +482,15 @@
       <p class="section__eyebrow reveal">Зв'язок</p>
       <h2 class="section__title reveal">Контакти</h2>
       <div class="contacts__grid">
-        <a class="contact reveal" href="tel:+380676661488">
+        <a class="contact reveal" href="tel:+380676661488" data-tel>
           <span class="contact__icon"><svg class="icon"><use href="#i-phone"/></svg></span>
           <h3>Телефон</h3>
-          <p>+38 (067) 666-14-88</p>
+          <p data-bind="phoneDisplay">+38 (067) 666-14-88</p>
         </a>
-        <a class="contact reveal" href="https://t.me/zhenya1771" target="_blank" rel="noopener">
+        <a class="contact reveal" href="https://t.me/zhenya1771" target="_blank" rel="noopener" data-tg>
           <span class="contact__icon"><svg class="icon"><use href="#i-send"/></svg></span>
           <h3>Telegram</h3>
-          <p>@zhenya1771</p>
+          <p data-bind="telegram">@zhenya1771</p>
         </a>
         <div class="contact reveal">
           <span class="contact__icon"><svg class="icon"><use href="#i-map-pin"/></svg></span>
@@ -500,7 +500,7 @@
         <div class="contact reveal">
           <span class="contact__icon"><svg class="icon"><use href="#i-calendar"/></svg></span>
           <h3>Графік</h3>
-          <p>Пн–Сб: 9:00–19:00<br><small>прийом за попереднім записом</small></p>
+          <p><span data-bind="schedule">Пн–Сб: 9:00–19:00</span><br><small>прийом за попереднім записом</small></p>
         </div>
       </div>
 
@@ -513,7 +513,7 @@
         <div class="map__bar">
           <div class="map__bar-text">
             <strong>Кабінет у Києві</strong>
-            <span>Точну адресу підтверджую під час запису на прийом</span>
+            <span data-bind="addressNote">Точну адресу підтверджую під час запису на прийом</span>
           </div>
           <a class="btn btn--primary" href="https://maps.app.goo.gl/jAJH8CkrYU46GYbDA" target="_blank" rel="noopener">
             <svg class="icon"><use href="#i-map-pin"/></svg> Маршрут
