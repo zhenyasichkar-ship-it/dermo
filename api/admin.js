@@ -11,7 +11,7 @@
  * задайте надійний ADMIN_PASSWORD у Vercel (значення 67/69 — лише демо).
  */
 
-import { sheetsEnabled, sheetsGet } from './_sheets.js';
+import { sheetsEnabled, sheetsGet, sheetsPost } from './_sheets.js';
 
 function checkAuth(body) {
   const login = process.env.ADMIN_LOGIN || '67';
@@ -33,17 +33,28 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, sheets: sheetsEnabled() });
   }
 
-  if (action === 'data') {
-    if (!sheetsEnabled()) {
-      return res.status(200).json({ ok: true, sheets: false, rows: [] });
-    }
-    try {
+  if (!sheetsEnabled()) {
+    if (action === 'data') return res.status(200).json({ ok: true, sheets: false, rows: [] });
+    return res.status(200).json({ ok: false, error: 'Google Таблиця не підключена' });
+  }
+
+  try {
+    if (action === 'data') {
       const data = await sheetsGet({ action: 'stats' });
       return res.status(200).json({ ok: true, sheets: true, rows: data.rows || [] });
-    } catch (err) {
-      console.error('admin data error:', err);
-      return res.status(500).json({ ok: false, error: 'Не вдалося завантажити дані' });
     }
+    if (action === 'update') {
+      const { id, name, phone, message, date, time, status } = req.body;
+      const result = await sheetsPost({ action: 'update', id, name, phone, message, date, time, status });
+      return res.status(200).json(result);
+    }
+    if (action === 'delete') {
+      const result = await sheetsPost({ action: 'delete', id: req.body.id });
+      return res.status(200).json(result);
+    }
+  } catch (err) {
+    console.error('admin error:', err);
+    return res.status(500).json({ ok: false, error: 'Помилка сервера' });
   }
 
   return res.status(400).json({ ok: false, error: 'Невідома дія' });

@@ -18,6 +18,7 @@
     .btn--primary{background:var(--accent);color:#fff}.btn--primary:hover{background:var(--accent-d)}
     .btn--ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}.btn--ghost:hover{border-color:var(--accent)}
     .btn--sm{padding:6px 12px;font-size:13px;border-radius:8px}
+    .btn--danger{background:#fff;border:1.5px solid #f0c4c4;color:#d33c3c}.btn--danger:hover{background:#fff4f4}
 
     .login{min-height:100vh;display:grid;place-items:center;padding:20px}
     .login__card{background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(11,37,64,.12);padding:36px;width:min(400px,100%);text-align:center}
@@ -26,8 +27,8 @@
     .login__card p{color:var(--soft);font-size:14px;margin-bottom:22px}
     .field{display:grid;gap:6px;text-align:left;margin-bottom:16px}
     .field label{font-weight:700;font-size:14px}
-    .field input{font:inherit;font-size:15px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);width:100%}
-    .field input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px rgba(14,165,165,.14)}
+    .field input,.field select,.field textarea{font:inherit;font-size:15px;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);width:100%}
+    .field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 4px rgba(14,165,165,.14)}
     .msg{font-size:14px;font-weight:600;min-height:1.2em;margin-top:6px}
     .msg.err{color:#d33c3c}.msg.ok{color:#12855b}
 
@@ -50,28 +51,42 @@
     .panel__head h2{font-size:22px}
     .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
     table{width:100%;border-collapse:collapse}
-    th,td{text-align:left;padding:13px 14px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top}
+    th,td{text-align:left;padding:12px 14px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:middle}
     th{background:var(--tint);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
     tr:last-child td{border-bottom:0}
-    .msg-cell{max-width:240px;color:var(--soft)}
+    .msg-cell{max-width:200px;color:var(--soft)}
     .when{font-weight:700;color:var(--accent-d);white-space:nowrap}
     .empty{padding:44px 20px;text-align:center;color:var(--soft)}
     .banner{background:#fff8e6;border:1px solid #f0e0b0;color:#7a5c00;border-radius:12px;padding:12px 16px;font-size:14px;margin-bottom:18px}
+    .row-actions{display:flex;gap:6px}
+
+    .badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+    .badge--Нова{background:#e6f6f0;color:#12855b}
+    .badge--Підтверджено{background:#e2f0ff;color:#1a63b8}
+    .badge--Скасовано{background:#fdeaea;color:#c0392b;text-decoration:line-through}
 
     .day-group{margin-bottom:22px}
     .day-group__title{font-weight:800;font-size:16px;margin-bottom:10px;color:var(--ink)}
-    .slot-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px}
-    .slot-row__time{font-weight:800;color:var(--accent-d);min-width:56px}
+    .slot-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px;flex-wrap:wrap}
+    .slot-row--Скасовано{opacity:.55}
+    .slot-row__time{font-weight:800;color:var(--accent-d);min-width:52px}
     .slot-row__name{font-weight:700}
-    .slot-row__phone{color:var(--soft);margin-left:auto}
+    .slot-row__phone{color:var(--soft)}
+    .slot-row__actions{margin-left:auto;display:flex;gap:6px}
+
+    .modal{position:fixed;inset:0;background:rgba(11,37,64,.5);display:none;place-items:center;padding:20px;z-index:50}
+    .modal.is-open{display:grid}
+    .modal__card{background:#fff;border-radius:18px;padding:26px;width:min(440px,100%);max-height:90vh;overflow:auto}
+    .modal__card h3{font-size:20px;margin-bottom:18px}
+    .modal__actions{display:flex;gap:10px;justify-content:space-between;margin-top:8px}
 
     @media(max-width:640px){
       .stats{grid-template-columns:1fr}
       .msg-cell{max-width:none}
       table,thead,tbody,th,td,tr{display:block}thead{display:none}
-      td{border-bottom:0;padding:5px 14px}tr{border-bottom:1px solid var(--line);padding:10px 0}
+      td{border-bottom:0;padding:5px 14px}tr{border-bottom:1px solid var(--line);padding:12px 0}
       td::before{content:attr(data-label);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--soft);display:block}
-      .slot-row{flex-wrap:wrap}.slot-row__phone{margin-left:0}
+      .slot-row__actions{margin-left:0;width:100%}
     }
   </style>
 </head>
@@ -82,14 +97,8 @@
       <div class="login__icon">🔒</div>
       <h1>Адмін-панель</h1>
       <p>Введіть логін і пароль</p>
-      <div class="field">
-        <label for="login">Логін</label>
-        <input type="text" id="login" autocomplete="username" required>
-      </div>
-      <div class="field">
-        <label for="pass">Пароль</label>
-        <input type="password" id="pass" autocomplete="current-password" required>
-      </div>
+      <div class="field"><label for="login">Логін</label><input type="text" id="login" autocomplete="username" required></div>
+      <div class="field"><label for="pass">Пароль</label><input type="password" id="pass" autocomplete="current-password" required></div>
       <button type="submit" class="btn btn--primary" style="width:100%">Увійти</button>
       <p class="msg err" id="loginMsg"></p>
     </form>
@@ -100,8 +109,8 @@
       <div class="topbar__in">
         <div class="brand">🩺 Січкар <small>адмін</small></div>
         <div class="tabs">
-          <button class="tab is-active" data-tab="leads">Заявки</button>
-          <button class="tab" data-tab="calendar">Записи</button>
+          <button class="tab is-active" data-tab="calendar">Записи</button>
+          <button class="tab" data-tab="leads">Усі заявки</button>
         </div>
         <button class="btn btn--ghost btn--sm" id="logout">Вийти</button>
       </div>
@@ -110,7 +119,7 @@
     <div class="wrap">
       <div class="banner" id="sheetsBanner" style="display:none">
         ⚠️ Google Таблиця не підключена — заявки не зберігаються. Налаштуйте
-        <code>SHEETS_URL</code> та <code>SHEETS_SECRET</code> (див. README).
+        <code>SHEETS_URL</code> та <code>SHEETS_SECRET</code> у Vercel (див. README).
       </div>
 
       <div class="stats">
@@ -119,26 +128,51 @@
         <div class="stat"><div class="stat__num" id="statUpcoming">0</div><div class="stat__label">Майбутні записи</div></div>
       </div>
 
-      <section class="panel is-active" id="panel-leads">
-        <div class="panel__head">
-          <h2>Усі заявки</h2>
-          <button class="btn btn--ghost btn--sm" id="refresh">↻ Оновити</button>
-        </div>
+      <div class="panel__head">
+        <div class="tabs" style="visibility:hidden"></div>
+        <button class="btn btn--ghost btn--sm" id="refresh">↻ Оновити</button>
+      </div>
+
+      <!-- Записи (календар) -->
+      <section class="panel is-active" id="panel-calendar">
+        <div id="calendarView"></div>
+        <div class="empty" id="calendarEmpty" style="display:none">Майбутніх записів немає.</div>
+      </section>
+
+      <!-- Усі заявки -->
+      <section class="panel" id="panel-leads">
         <div class="card">
           <table>
-            <thead><tr><th>Отримано</th><th>Ім'я</th><th>Телефон</th><th>Запис на</th><th>Що турбує</th></tr></thead>
+            <thead><tr><th>Отримано</th><th>Ім'я</th><th>Телефон</th><th>Запис на</th><th>Статус</th><th>Дії</th></tr></thead>
             <tbody id="leadsBody"></tbody>
           </table>
           <div class="empty" id="leadsEmpty" style="display:none">Заявок поки немає.</div>
         </div>
       </section>
-
-      <section class="panel" id="panel-calendar">
-        <div class="panel__head"><h2>Майбутні записи за днями</h2></div>
-        <div id="calendarView"></div>
-        <div class="empty" id="calendarEmpty" style="display:none">Майбутніх записів немає.</div>
-      </section>
     </div>
+  </div>
+
+  <!-- Модалка редагування -->
+  <div class="modal" id="modal">
+    <form class="modal__card" id="editForm">
+      <h3>Редагувати запис</h3>
+      <input type="hidden" id="e-id">
+      <div class="field"><label for="e-name">Ім'я</label><input type="text" id="e-name"></div>
+      <div class="field"><label for="e-phone">Телефон</label><input type="tel" id="e-phone"></div>
+      <div class="field"><label for="e-date">Дата запису</label><input type="date" id="e-date"></div>
+      <div class="field"><label for="e-time">Час</label><select id="e-time"></select></div>
+      <div class="field"><label for="e-status">Статус</label>
+        <select id="e-status">
+          <option>Нова</option><option>Підтверджено</option><option>Скасовано</option>
+        </select>
+      </div>
+      <div class="field"><label for="e-message">Що турбує</label><textarea id="e-message" rows="2"></textarea></div>
+      <p class="msg" id="editMsg"></p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" id="editCancel">Скасувати</button>
+        <button type="submit" class="btn btn--primary">Зберегти</button>
+      </div>
+    </form>
   </div>
 
   <script>
@@ -146,16 +180,20 @@
     let ROWS = [];
     const $ = (s) => document.querySelector(s);
 
-    async function api(action) {
+    async function api(action, extra = {}) {
       const res = await fetch('/api/admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, ...AUTH }),
+        body: JSON.stringify({ action, ...AUTH, ...extra }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.status === 401) { logout(); throw new Error('401'); }
       return data;
     }
+
+    // Слоти для селекта часу (9:00–18:30, крок 30 хв)
+    const SLOTS = (() => { const o = []; for (let m = 9 * 60; m < 19 * 60; m += 30) o.push(`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`); return o; })();
+    $('#e-time').innerHTML = SLOTS.map((t) => `<option>${t}</option>`).join('');
 
     $('#loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -170,9 +208,7 @@
 
     function logout() {
       sessionStorage.removeItem('adminAuth'); AUTH = null;
-      $('#app').style.display = 'none';
-      $('#loginScreen').style.display = 'grid';
-      $('#pass').value = '';
+      $('#app').style.display = 'none'; $('#loginScreen').style.display = 'grid'; $('#pass').value = '';
     }
     $('#logout').addEventListener('click', logout);
 
@@ -194,17 +230,13 @@
     const todayKyiv = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Kyiv' }).format(new Date());
     const DOW = ['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота'];
     const MON = ['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
-    function dateLabel(iso) {
-      const d = new Date(iso + 'T12:00:00Z');
-      return `${DOW[d.getUTCDay()]}, ${d.getUTCDate()} ${MON[d.getUTCMonth()]}`;
-    }
+    function dateLabel(iso) { const d = new Date(iso + 'T12:00:00Z'); return `${DOW[d.getUTCDay()]}, ${d.getUTCDate()} ${MON[d.getUTCMonth()]}`; }
+    function badge(status) { const s = status || 'Нова'; return `<span class="badge badge--${esc(s)}">${esc(s)}</span>`; }
 
     async function loadData() {
       const data = await api('data');
       ROWS = data.rows || [];
-      renderStats();
-      renderLeads();
-      renderCalendar();
+      renderStats(); renderCalendar(); renderLeads();
     }
 
     function renderStats() {
@@ -213,21 +245,16 @@
       $('#statUpcoming').textContent = ROWS.filter((r) => r.date && r.date >= todayKyiv && r.status !== 'Скасовано').length;
     }
 
-    function renderLeads() {
-      const rows = [...ROWS].reverse(); // найновіші зверху
-      $('#leadsEmpty').style.display = rows.length ? 'none' : 'block';
-      $('#leadsBody').innerHTML = rows.map((r) => `<tr>
-        <td data-label="Отримано">${esc(r.received)}</td>
-        <td data-label="Ім'я"><strong>${esc(r.name)}</strong></td>
-        <td data-label="Телефон"><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a></td>
-        <td data-label="Запис на"><span class="when">${esc(r.date)} ${esc(r.time)}</span></td>
-        <td data-label="Що турбує" class="msg-cell">${esc(r.message) || '—'}</td>
-      </tr>`).join('');
+    function actionBtns(id) {
+      return `<div class="row-actions">
+        <button class="btn btn--ghost btn--sm" data-edit="${id}">✏️</button>
+        <button class="btn btn--danger btn--sm" data-del="${id}">🗑</button>
+      </div>`;
     }
 
     function renderCalendar() {
       const upcoming = ROWS
-        .filter((r) => r.date && r.date >= todayKyiv && r.status !== 'Скасовано')
+        .filter((r) => r.date && r.date >= todayKyiv)
         .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
       $('#calendarEmpty').style.display = upcoming.length ? 'none' : 'block';
       const byDay = {};
@@ -235,16 +262,78 @@
       $('#calendarView').innerHTML = Object.keys(byDay).sort().map((day) => `
         <div class="day-group">
           <div class="day-group__title">${dateLabel(day)}</div>
-          ${byDay[day].map((r) => `<div class="slot-row">
+          ${byDay[day].map((r) => `<div class="slot-row slot-row--${esc(r.status)}">
             <span class="slot-row__time">${esc(r.time)}</span>
             <span class="slot-row__name">${esc(r.name)}</span>
             <a class="slot-row__phone" href="tel:${esc(r.phone)}">${esc(r.phone)}</a>
+            ${badge(r.status)}
+            <span class="slot-row__actions">${actionBtns(r.id)}</span>
           </div>`).join('')}
         </div>`).join('');
     }
 
-    $('#refresh').addEventListener('click', loadData);
+    function renderLeads() {
+      const rows = [...ROWS].reverse();
+      $('#leadsEmpty').style.display = rows.length ? 'none' : 'block';
+      $('#leadsBody').innerHTML = rows.map((r) => `<tr>
+        <td data-label="Отримано">${esc(r.received)}</td>
+        <td data-label="Ім'я"><strong>${esc(r.name)}</strong></td>
+        <td data-label="Телефон"><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a></td>
+        <td data-label="Запис на"><span class="when">${esc(r.date)} ${esc(r.time)}</span></td>
+        <td data-label="Статус">${badge(r.status)}</td>
+        <td data-label="Дії">${actionBtns(r.id)}</td>
+      </tr>`).join('');
+    }
 
+    // Делегування кліків по кнопках ✏️ / 🗑
+    document.addEventListener('click', async (e) => {
+      const ed = e.target.closest('[data-edit]');
+      const del = e.target.closest('[data-del]');
+      if (ed) openEdit(ed.dataset.edit);
+      else if (del) {
+        if (confirm('Видалити цей запис?')) {
+          await api('delete', { id: del.dataset.del });
+          loadData();
+        }
+      }
+    });
+
+    function openEdit(id) {
+      const r = ROWS.find((x) => String(x.id) === String(id));
+      if (!r) return;
+      $('#e-id').value = r.id;
+      $('#e-name').value = r.name || '';
+      $('#e-phone').value = r.phone || '';
+      $('#e-date').value = r.date || '';
+      if (!SLOTS.includes(r.time) && r.time) $('#e-time').innerHTML = `<option>${esc(r.time)}</option>` + SLOTS.map((t) => `<option>${t}</option>`).join('');
+      $('#e-time').value = r.time || SLOTS[0];
+      $('#e-status').value = r.status || 'Нова';
+      $('#e-message').value = r.message || '';
+      $('#editMsg').textContent = '';
+      $('#modal').classList.add('is-open');
+    }
+    function closeEdit() { $('#modal').classList.remove('is-open'); }
+    $('#editCancel').addEventListener('click', closeEdit);
+    $('#modal').addEventListener('click', (e) => { if (e.target === $('#modal')) closeEdit(); });
+
+    $('#editForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('#editMsg').textContent = 'Зберігаємо…'; $('#editMsg').className = 'msg';
+      const payload = {
+        id: $('#e-id').value,
+        name: $('#e-name').value.trim(),
+        phone: $('#e-phone').value.trim(),
+        date: $('#e-date').value,
+        time: $('#e-time').value,
+        status: $('#e-status').value,
+        message: $('#e-message').value.trim(),
+      };
+      const data = await api('update', payload);
+      if (data.ok) { closeEdit(); loadData(); }
+      else { $('#editMsg').textContent = data.error || 'Помилка'; $('#editMsg').className = 'msg err'; }
+    });
+
+    $('#refresh').addEventListener('click', loadData);
     (async () => { if (AUTH) { try { const d = await api('login'); if (d.ok) showApp(d.sheets); } catch {} } })();
   </script>
 </body>

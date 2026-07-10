@@ -10,12 +10,18 @@
  *       Хто має доступ: Усі (Anyone)
  *     Скопіюйте URL виду https://script.google.com/macros/s/…/exec
  *  5. У Vercel додайте змінні: SHEETS_URL = цей URL, SHEETS_SECRET = ваш SECRET.
+ *
+ * ⚠️ Якщо ви оновлюєте код (додався стовпець ID) — після вставлення
+ * зробіть Розгорнути → Керувати розгортками → ✏️ → Версія: Нова → Розгорнути.
  */
 
 const SECRET = 'ЗАМІНІТЬ_НА_ДОВГИЙ_СЕКРЕТ_abc123XYZ';
 const SHEET_NAME = 'Заявки';
-const HEADERS = ['Отримано', 'Ім\'я', 'Телефон', 'Що турбує', 'Дата запису', 'Час', 'Статус'];
+const HEADERS = ['ID', 'Отримано', 'Ім\'я', 'Телефон', 'Що турбує', 'Дата запису', 'Час', 'Статус'];
 const TZ = 'Europe/Kyiv';
+
+// Індекси стовпців
+const COL = { id: 0, received: 1, name: 2, phone: 3, message: 4, date: 5, time: 6, status: 7 };
 
 function getSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -30,6 +36,14 @@ function json(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function findRowById(sh, id) {
+  const data = sh.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][COL.id]) === String(id)) return i + 1; // 1-based рядок аркуша
+  }
+  return -1;
+}
+
 // GET: ?action=taken&date=YYYY-MM-DD   або   ?action=stats
 function doGet(e) {
   const p = e.parameter || {};
@@ -40,8 +54,8 @@ function doGet(e) {
   if (p.action === 'taken') {
     const taken = [];
     for (let i = 1; i < data.length; i++) {
-      if (String(data[i][4]) === p.date && data[i][6] !== 'Скасовано') {
-        taken.push(String(data[i][5]));
+      if (String(data[i][COL.date]) === p.date && data[i][COL.status] !== 'Скасовано') {
+        taken.push(String(data[i][COL.time]));
       }
     }
     return json({ ok: true, taken: taken });
@@ -52,9 +66,10 @@ function doGet(e) {
     for (let i = 1; i < data.length; i++) {
       const r = data[i];
       rows.push({
-        received: fmt(r[0]),
-        name: r[1], phone: r[2], message: r[3],
-        date: String(r[4]), time: String(r[5]), status: r[6],
+        id: String(r[COL.id]),
+        received: fmt(r[COL.received]),
+        name: r[COL.name], phone: r[COL.phone], message: r[COL.message],
+        date: String(r[COL.date]), time: String(r[COL.time]), status: r[COL.status],
       });
     }
     return json({ ok: true, total: rows.length, rows: rows });
@@ -63,21 +78,44 @@ function doGet(e) {
   return json({ ok: false, error: 'unknown action' });
 }
 
-// POST: { action:"add", name, phone, message, date, time }
+// POST: { action:"add"|"update"|"delete", ... }
 function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) {}
   if (body.secret !== SECRET) return json({ ok: false, error: 'unauthorized' });
+  const sh = getSheet();
 
   if (body.action === 'add') {
-    const sh = getSheet();
     const data = sh.getDataRange().getValues();
     for (let i = 1; i < data.length; i++) {
-      if (String(data[i][4]) === body.date && String(data[i][5]) === body.time && data[i][6] !== 'Скасовано') {
+      if (String(data[i][COL.date]) === body.date &&
+          String(data[i][COL.time]) === body.time &&
+          data[i][COL.status] !== 'Скасовано') {
         return json({ ok: false, error: 'taken' });
       }
     }
-    sh.appendRow([new Date(), body.name || '', body.phone || '', body.message || '', body.date || '', body.time || '', 'Нова']);
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    sh.appendRow([id, new Date(), body.name || '', body.phone || '', body.message || '', body.date || '', body.time || '', 'Нова']);
+    return json({ ok: true, id: id });
+  }
+
+  if (body.action === 'update') {
+    const row = findRowById(sh, body.id);
+    if (row < 0) return json({ ok: false, error: 'not found' });
+    // Оновлюємо ім'я, телефон, повідомлення, дату, час, статус (ID та "Отримано" лишаються)
+    sh.getRange(row, COL.name + 1).setValue(body.name || '');
+    sh.getRange(row, COL.phone + 1).setValue(body.phone || '');
+    sh.getRange(row, COL.message + 1).setValue(body.message || '');
+    sh.getRange(row, COL.date + 1).setValue(body.date || '');
+    sh.getRange(row, COL.time + 1).setValue(body.time || '');
+    sh.getRange(row, COL.status + 1).setValue(body.status || 'Нова');
+    return json({ ok: true });
+  }
+
+  if (body.action === 'delete') {
+    const row = findRowById(sh, body.id);
+    if (row < 0) return json({ ok: false, error: 'not found' });
+    sh.deleteRow(row);
     return json({ ok: true });
   }
 
