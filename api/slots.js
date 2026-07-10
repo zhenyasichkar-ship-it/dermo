@@ -1,10 +1,9 @@
 /**
  * Публічний ендпоінт: які часи вже зайняті на конкретну дату.
- * Використовується календарем на сайті, щоб приховати зайняті слоти.
  *   GET /api/slots?date=YYYY-MM-DD  →  { ok, taken: ["09:00","10:30", …] }
  */
 
-import { sheetsEnabled, sheetsGet } from './_sheets.js';
+import { dbEnabled, q, ensureTable } from './_db.js';
 
 export default async function handler(req, res) {
   const date = String(req.query.date || '').trim();
@@ -14,13 +13,14 @@ export default async function handler(req, res) {
 
   res.setHeader('Cache-Control', 'no-store');
 
-  if (!sheetsEnabled()) {
-    return res.status(200).json({ ok: true, taken: [] });
-  }
+  if (!dbEnabled()) return res.status(200).json({ ok: true, taken: [] });
 
   try {
-    const data = await sheetsGet({ action: 'taken', date });
-    return res.status(200).json({ ok: true, taken: Array.isArray(data.taken) ? data.taken : [] });
+    await ensureTable();
+    const rows = await q(
+      `SELECT btime FROM bookings WHERE bdate = $1 AND status <> 'Скасовано'`,
+      [date]);
+    return res.status(200).json({ ok: true, taken: rows.map((r) => r.btime) });
   } catch (err) {
     console.error('slots error:', err);
     return res.status(200).json({ ok: true, taken: [] });

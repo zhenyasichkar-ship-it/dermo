@@ -1,13 +1,13 @@
 /**
- * Vercel Serverless Function: приймає заявку/запис із форми,
- * записує її в Google Sheets і надсилає сповіщення в Telegram.
+ * Vercel Serverless Function: приймає запис із форми,
+ * зберігає його в Postgres і надсилає сповіщення в Telegram.
  *
  * Змінні оточення:
- *   TG_BOT_TOKEN, TG_CHAT_ID       — Telegram-бот
- *   SHEETS_URL, SHEETS_SECRET      — Google Sheets (Apps Script)
+ *   TG_BOT_TOKEN, TG_CHAT_ID   — Telegram-бот
+ *   DATABASE_URL (або POSTGRES_URL) — база (додається Vercel автоматично)
  */
 
-import { sheetsEnabled, sheetsPost } from './_sheets.js';
+import { dbEnabled, q, ensureTable } from './_db.js';
 import { isValidSlot } from './_config.js';
 
 export default async function handler(req, res) {
@@ -17,8 +17,7 @@ export default async function handler(req, res) {
 
   const { name, phone, message, website, date, time } = req.body || {};
 
-  // Honeypot проти спам-ботів
-  if (website) return res.status(200).json({ ok: true });
+  if (website) return res.status(200).json({ ok: true }); // honeypot
 
   const cleanName = String(name || '').trim().slice(0, 100);
   const cleanPhone = String(phone || '').trim().slice(0, 30);
@@ -33,22 +32,23 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: 'Оберіть коректний день і час запису' });
   }
 
-  // 1) Зберігаємо в Google Sheets (із перевіркою на подвійний запис)
-  if (sheetsEnabled()) {
+  // 1) Зберігаємо в базу (із перевіркою на подвійний запис)
+  if (dbEnabled()) {
     try {
-      const result = await sheetsPost({
-        action: 'add',
-        name: cleanName,
-        phone: cleanPhone,
-        message: cleanMessage,
-        date: cleanDate,
-        time: cleanTime,
-      });
-      if (result && result.error === 'taken') {
+      await ensureTable();
+      const taken = await q(
+        `SELECT 1 FROM bookings WHERE bdate = $1 AND btime = $2 AND status <> 'Скасовано' LIMIT 1`,
+        [cleanDate, cleanTime]);
+      if (taken.length) {
         return res.status(409).json({ ok: false, error: 'На жаль, цей час щойно зайняли. Оберіть інший, будь ласка.' });
       }
+      const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      await q(
+        `INSERT INTO bookings (id, name, phone, message, bdate, btime, status)
+         VALUES ($1, $2, $3, $4, $5, $6, 'Нова')`,
+        [id, cleanName, cleanPhone, cleanMessage, cleanDate, cleanTime]);
     } catch (err) {
-      console.error('Sheets error:', err);
+      console.error('DB error:', err);
       // не блокуємо — принаймні надішлемо в Telegram
     }
   }
@@ -65,9 +65,7 @@ export default async function handler(req, res) {
       `📞 <b>Телефон:</b> <code>${escapeHtml(cleanPhone)}</code>`,
       `📅 <b>Запис на:</b> ${escapeHtml(dateLabel)}, <b>${escapeHtml(cleanTime)}</b>`,
       cleanMessage ? `💬 <b>Що турбує:</b> ${escapeHtml(cleanMessage)}` : null,
-    ]
-      .filter((l) => l !== null)
-      .join('\n');
+    ].filter((l) => l !== null).join('\n');
 
     try {
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -90,9 +88,7 @@ function formatDateUk(iso) {
     return new Date(`${iso}T12:00:00Z`).toLocaleDateString('uk-UA', {
       day: '2-digit', month: 'long', weekday: 'long',
     });
-  } catch {
-    return iso;
-  }
+  } catch { return iso; }
 }
 
 function escapeHtml(str) {
