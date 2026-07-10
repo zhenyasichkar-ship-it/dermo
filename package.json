@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "dermo-landing",
+  "description": "Лендінг лікаря-дерматолога: форма запису, календар, Telegram, Google Sheets"
+}

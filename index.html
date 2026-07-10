@@ -453,6 +453,20 @@
         </ul>
       </div>
       <form class="form reveal" id="bookingForm" novalidate>
+        <div class="cal">
+          <div class="cal__step">
+            <span class="cal__label"><b>1.</b> Оберіть день</span>
+            <div class="cal__days" id="calDays"></div>
+          </div>
+          <div class="cal__step">
+            <span class="cal__label"><b>2.</b> Оберіть час</span>
+            <div class="cal__slots" id="calSlots"><p class="cal__hint">Спочатку оберіть день ↑</p></div>
+          </div>
+          <input type="hidden" name="date" id="bookingDate">
+          <input type="hidden" name="time" id="bookingTime">
+        </div>
+
+        <span class="cal__label cal__label--fields"><b>3.</b> Ваші контакти</span>
         <div class="form__field">
           <label for="name">Ваше ім'я *</label>
           <input type="text" id="name" name="name" placeholder="Як до вас звертатися?" required autocomplete="name">
@@ -468,7 +482,7 @@
         <!-- honeypot: приховане поле проти спам-ботів -->
         <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
         <button type="submit" class="btn btn--primary btn--lg form__submit" id="submitBtn">
-          Надіслати заявку
+          Записатися на прийом
         </button>
         <p class="form__status" id="formStatus" role="status"></p>
         <p class="form__note">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних.</p>
